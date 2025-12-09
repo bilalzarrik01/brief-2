@@ -1,171 +1,640 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="style.css">
-    <style>
- 
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mimir Library - Light Theme</title>
 
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
+    <style>
+        /* Custom Styles - ALL COLORS CHANGED FOR LIGHT THEME */
+        body {
+            /* MANTEL */
+            background: #F0F0E0; /* Soft Cream/Beige */
+            color: #1a1a1a; /* Dark Text */
+            font-family: sans-serif;
+            overflow-x: hidden;
+        }
+
+        /* 3D Card Styles */
+        .card-3d {
+            transform-style: preserve-3d;
+            perspective: 1200px;
+        }
+
+        /* Hero Section */
+        .hero-section {
+            background-color: #FDFDF5; /* Lighter white */
+            padding: 4rem 1rem;
+        }
+
+        /* Header */
+        .header-nav {
+            background-color: #FFFFFF; /* White Header */
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        /* Forms Styling */
+        .form-container {
+            background-color: #FFFFFF; /* White form background */
+            border: 1px solid #ccc;
+            max-height: 90vh; 
+            overflow-y: auto; 
+            color: #1a1a1a; /* Dark text inside form */
+        }
+
+        .form-input {
+            background-color: #f7f7f7; /* Very light input */
+            border: 1px solid #ddd;
+            color: #1a1a1a;
+            transition: background-color 0.2s, border-color 0.2s;
+        }
+
+        .form-input:focus {
+            background-color: #ffffff;
+            border-color: #54BAB9;
+        }
+
+        /* Button Styling */
+        .primary-btn {
+            background-color: #54BAB9;
+            color: white; /* Primary buttons should have white text */
+            transition: background-color 0.2s, transform 0.1s;
+        }
+
+        .primary-btn:hover {
+            background-color: #439695;
+        }
+
+        .secondary-btn {
+            background-color: #e0e0e0; /* Light secondary buttons */
+            color: #1a1a1a; /* Dark text on secondary button */
+            transition: background-color 0.2s, transform 0.1s;
+        }
+
+        .secondary-btn:hover {
+            background-color: #ccc;
+        }
+
+        /* Book of the Week */
+        .book-week {
+            background-color: #fff8e1; /* Light cream accent */
+            border: 1px solid #ffe0b2;
+            color: #1a1a1a;
+        }
+
+        /* Star Rating - Color remains gold */
+        .rating {
+            direction: rtl;
+            unicode-bidi: bidi-override;
+            display: inline-flex;
+        }
+
+        .rating label {
+            font-size: 2.5rem;
+            color: #ccc; /* Light gray for unselected stars */
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+
+        .rating input:checked~label,
+        .rating label:hover,
+        .rating label:hover~label {
+            color: gold;
+        }
+        
+        /* Utility for sections */
+        .page-section {
+            min-height: 50vh; 
+            padding-top: 5rem;
+            padding-bottom: 5rem;
+        }
+
+        /* Modal/Overlay Styles */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7); /* Darker overlay for contrast */
+            z-index: 100;
+            display: none;
+            place-items: center;
+        }
+
+        .modal-form {
+            position: relative;
+            max-width: 90%;
+            margin: auto;
+        }
+        
+        #book-review-modal .modal-form {
+            max-width: 600px;
+        }
+
+        /* Smooth Scroll Link Style */
+        .scroll-link {
+            transition: color 0.2s;
+            color: #1a1a1a; /* Dark links on light header */
+        }
+        .scroll-link:hover {
+            color: #54BAB9; 
+        }
+
+        /* Book Item Styling */
+        .book {
+            background-color: #FFFFFF; /* White background for books */
+            border: 1px solid #eee;
+            color: #1a1a1a;
+        }
+        .book .writer {
+            color: #5a5a5a; /* Slightly lighter gray for author */
+        }
+
+        /* Utility Class for JS Toggle - Corrected */
+        .hidden-books {
+            display: none;
+            transition: opacity 0.5s ease;
+        }
+        .visible-books {
+            display: contents;
+        }
     </style>
 </head>
-<body>
-  
-    <header>
-        <h1>Mimir</h1>
-           <nav>
-       
-         <a href="index.html">Home</a>
-        <a href="alb.html">All books</a>
-        <a href="req.html">Requesta book</a>     
-        <a href="sin.html">Single book</a>
-         <a href="yrs.html">Yours</a>
-         <a href="up.html">Sign Up</a>
-         <a href="log.html">Login</a>
-    </nav>
-    
-      
-    </header>
-    <br>
-    <br>
-       <section class="s">
-     
-            
-        
-                <h2  class="t">A Reader Lives a Thousand Lives <br>Before he Dies.</h2>
-            </div>
 
+<body class="text-[#1a1a1a]">
+
+    <header class="header-nav sticky top-0 z-50 shadow-md">
+        <div class="max-w-7xl mx-auto flex justify-between items-center p-4">
+            <a href="#home" class="text-3xl font-bold text-[#1a1a1a]">Mimir</a>
+            
+            <nav class="flex gap-6 text-sm font-medium hidden md:flex">
+                <a href="#all-books" class="scroll-link">All Books</a>
+                <a href="#single-book" class="scroll-link">Book View</a>
+                <a href="#yours" class="scroll-link">Review</a>
+            </nav>
+
+            <div class="flex gap-4">
+                <button id="nav-request-btn" class="secondary-btn px-4 py-2 rounded-lg font-medium shadow-md">Request Book 📬</button>
+                <button id="nav-signup-btn" class="primary-btn px-4 py-2 rounded-lg font-medium shadow-md">Sign Up</button>
+                <button id="nav-login-btn" class="secondary-btn px-4 py-2 rounded-lg font-medium shadow-md">Login 🔑</button>
+            </div>
         </div>
-        <div class="search">
-                  <input type="text"  class="search-input"  placeholder="Search by book or author">
-            <button class="search-btn"><svg width="28" height="24" viewBox="0 0 28 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M13.0648 20C18.6337 20 23.1481 15.9706 23.1481 11C23.1481 6.02944 18.6337 2 13.0648 2C7.49591 2 2.98145 6.02944 2.98145 11C2.98145 15.9706 7.49591 20 13.0648 20Z" stroke="#2C2C2C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M21.9492 20.6898C22.543 22.2898 23.8986 22.4498 24.9406 21.0498C25.8929 19.7698 25.2655 18.7198 23.5401 18.7198C22.2629 18.7098 21.5459 19.5998 21.9492 20.6898Z" stroke="#2C2C2C" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
+    </header>
+
+    <div id="login-modal" class="modal-overlay">
+        <div class="modal-form form-container p-8 rounded-3xl shadow-xl w-full max-w-md">
+            <button class="modal-close-btn absolute top-4 right-4 text-gray-500 hover:text-[#1a1a1a] text-3xl font-light leading-none">&times;</button>
+            
+            <h2 class="text-3xl font-bold text-center mb-8">LOGIN 🔑 </h2>
+            <form>
+                <div class="mb-5">
+                    <label for="username-log" class="block text-sm font-medium mb-2 text-gray-700">EMAIL / USERNAME</label>
+                    <input type="text" id="username-log" class="form-input p-3 rounded-lg w-full" required>
+                </div>
+                <div class="mb-8">
+                    <label for="password-log" class="block text-sm font-medium mb-2 text-gray-700">PASSWORD</label>
+                    <input type="password" id="password-log" class="form-input p-3 rounded-lg w-full" required>
+                </div>
+                <div class="flex justify-between items-center mt-6">
+                    <button type="submit" class="primary-btn p-3 rounded-lg font-bold w-2/5">LOGIN</button>
+                    <button type="button" id="go-to-signup" class="secondary-btn p-3 rounded-lg font-bold w-2/5 text-sm">Create Account</button>
+                </div>
+                <p class="text-center text-sm text-gray-500 mt-4">
+                    <a href="#" class="hover:text-[#1a1a1a]">Forgot Password?</a>
+                </p>
+            </form>
+        </div>
+    </div>
+
+    <div id="signup-modal" class="modal-overlay">
+        <div class="modal-form form-container p-8 rounded-3xl shadow-xl w-full max-w-md">
+             <button class="modal-close-btn absolute top-4 right-4 text-gray-500 hover:text-[#1a1a1a] text-3xl font-light leading-none">&times;</button>
+
+            <h2 class="text-3xl font-bold text-center mb-8">SIGN UP 👋</h2>
+            <form>
+                <div class="mb-5">
+                    <label for="full-name-up" class="block text-sm font-medium mb-2 text-gray-700">FULL NAME</label>
+                    <input type="text" id="full-name-up" placeholder="Full Name" class="form-input p-3 rounded-lg w-full">
+                </div>
+                <div class="mb-5">
+                    <label for="email-up" class="block text-sm font-medium mb-2 text-gray-700">EMAIL</label>
+                    <input type="email" id="email-up" placeholder="Email" class="form-input p-3 rounded-lg w-full">
+                </div>
+                <div class="mb-5">
+                    <label for="password-up" class="block text-sm font-medium mb-2 text-gray-700">PASSWORD</label>
+                    <input type="password" id="password-up" placeholder="Password" class="form-input p-3 rounded-lg w-full">
+                </div>
+                <div class="mb-8">
+                    <label for="where-hear" class="block text-sm font-medium mb-2 text-gray-700">HOW DID YOU HEAR ABOUT US?</label>
+                    <textarea id="where-hear" rows="3" placeholder="Where did you hear about us?" class="form-input p-3 rounded-lg w-full resize-y"></textarea>
+                </div>
+
+                <button type="submit" class="primary-btn p-3 rounded-lg font-bold w-full">CONFIRM</button>
+            </form>
+        </div>
+    </div>
+    
+    <div id="request-modal" class="modal-overlay">
+        <div class="modal-form form-container p-8 rounded-3xl shadow-xl w-full max-w-md">
+            <button class="modal-close-btn absolute top-4 right-4 text-gray-500 hover:text-[#1a1a1a] text-3xl font-light leading-none">&times;</button>
+
+            <h2 class="text-3xl font-bold text-center mb-8">REQUEST A BOOK 📬</h2>
+            <form>
+                <div class="mb-5">
+                    <label for="full-name-req" class="block text-sm font-medium mb-2 text-gray-700">FULL NAME</label>
+                    <input type="text" id="full-name-req" class="form-input p-3 rounded-lg w-full" required>
+                </div>
+
+                <div class="mb-5">
+                    <label for="email-req" class="block text-sm font-medium mb-2 text-gray-700">EMAIL</label>
+                    <input type="email" id="email-req" class="form-input p-3 rounded-lg w-full" required>
+                </div>
+
+                <div class="mb-5">
+                    <label for="book-name-req" class="block text-sm font-medium mb-2 text-gray-700">THE BOOK NAME</label>
+                    <input type="text" id="book-name-req" class="form-input p-3 rounded-lg w-full" required>
+                </div>
+
+                <div class="mb-5">
+                    <label for="why-this-one-req" class="block text-sm font-medium mb-2 text-gray-700">WHY THIS ONE?</label>
+                    <textarea id="why-this-one-req" rows="4" class="form-input p-3 rounded-lg w-full resize-y" required></textarea>
+                </div>
+
+                <button type="submit" class="primary-btn p-3 rounded-lg font-bold w-full">REQUEST</button>
+            </form>
+        </div>
+    </div>
+    
+    <div id="book-review-modal" class="modal-overlay">
+        <div class="modal-form form-container p-8 rounded-3xl shadow-xl w-full max-w-md">
+            <button class="modal-close-btn absolute top-4 right-4 text-gray-500 hover:text-[#1a1a1a] text-3xl font-light leading-none">&times;</button>
+            
+            <div class="flex flex-col items-center">
+                <img id="review-book-image" src="book 1.png" alt="Book Cover" class="h-56 w-auto object-cover rounded-lg mb-4 shadow-lg">
+                <h2 id="review-book-title" class="text-3xl font-bold text-center mb-2">Book Title</h2>
+                <p id="review-book-writer" class="text-lg font-medium text-gray-700 mb-4">Book Writer</p>
+            </div>
+            
+            <h3 class="text-xl font-bold mb-2 border-t border-gray-300 pt-4 mt-4">Community Review:</h3>
+            <p id="review-book-content" class="text-base text-gray-800 leading-relaxed mb-6">
+                Currently, there is no specific review content loaded for this book. This is where a community member's detailed review, rating, and summary would appear.
+            </p>
+            
+            <button class="secondary-btn p-3 rounded-lg font-bold w-full" id="close-review-modal-btn">Close</button>
+        </div>
+    </div>
+
+    <section id="home" class="hero-section w-full h-screen flex items-center justify-center">
+        <div id="card" class="card-3d bg-white w-[380px] h-[460px] rounded-2xl shadow-2xl border border-gray-200 p-8 relative text-[#1a1a1a]">
+            <h1 class="text-4xl font-extrabold mb-4">Welcome to Mimir 📚</h1>
+            <p class="text-gray-700 leading-relaxed text-lg">
+                A Reader Lives a Thousand Lives Before He Dies. Experience our interactive library! Move your mouse to rotate this card.
+            </p>
+            <div id="circle" class="absolute -top-10 -right-10 w-32 h-32 rounded-full bg-purple-500/30 blur-2xl"></div>
+        </div>
+    </section>
+
+    ---
+
+    <section id="all-books" class="page-section max-w-7xl mx-auto p-4 md:p-8">
+        <h2 class="text-4xl font-bold text-center mb-12 text-[#1a1a1a]">Recent Reads & Full Catalog</h2>
+
+        <div class="book-week p-6 md:p-10 rounded-3xl mb-12 flex flex-col lg:flex-row items-center gap-6 shadow-lg">
+            <img src="book 1.png" alt="The Wicked book cover" class="h-80 w-auto object-cover rounded-xl shadow-lg flex-shrink-0">
+            <div class="text-[#1a1a1a]">
+                <p class="text-xl font-semibold mb-2 text-yellow-700">BOOK OF THE WEEK</p>
+                <h3 class="text-5xl font-extrabold mb-3">The Wicked</h3>
+                <p class="text-lg font-medium text-gray-700 mb-4">Gillen Mckelvie</p>
+                <p class="text-base leading-relaxed text-gray-800">
+                    A teen looks to impress some girls by sneaking into the woods where a witch is said to live. The legend becomes real when they discover she’s alive—and hunting. A gripping, dark fantasy that keeps you on the edge of your seat.
+                </p>
+            </div>
+        </div>
+        
+        <div class="flex justify-center mb-10">
+            <div class="flex flex-col sm:flex-row gap-3 w-full max-w-lg">
+                <input type="text" class="search-input form-input p-3 w-full rounded-full" placeholder="Search by book or author">
+                <button class="search-btn primary-btn p-3 rounded-full font-semibold">Search</button>
+            </div>
+        </div>
+
+        <div class="book-grid grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-6">
+            
+            <div class="book p-3 rounded-xl text-center shadow-lg transform transition duration-300 hover:scale-[1.03] hover:shadow-2xl cursor-pointer" 
+                 data-title="The Silent Patient" data-writer="Alex Michaelides" data-img="book 2.png" data-review="A psychological thriller with a shocking twist. The plot is cleverly constructed, though some character development feels shallow. Highly recommended for fans of unreliable narrators.">
+                <img src="book 2.png" alt="Book 1 Cover" class="w-full h-56 object-cover rounded-lg mb-2">
+                <p class="title font-semibold text-lg">The Silent Patient</p>
+                <p class="writer text-sm">Alex Michaelides</p>
+            </div>
+            
+            <div class="book p-3 rounded-xl text-center shadow-lg transform transition duration-300 hover:scale-[1.03] hover:shadow-2xl cursor-pointer" 
+                 data-title="Dune" data-writer="Frank Herbert" data-img="book 3.png" data-review="An epic masterpiece of science fiction and political intrigue. The world-building is immense, but the initial complexity can be daunting. Essential reading for any sci-fi lover.">
+                <img src="book 3.png" alt="Book 2 Cover" class="w-full h-56 object-cover rounded-lg mb-2">
+                <p class="title font-semibold text-lg">Dune</p>
+                <p class="writer text-sm">Frank Herbert</p>
+            </div>
+            
+            <div class="book p-3 rounded-xl text-center shadow-lg transform transition duration-300 hover:scale-[1.03] hover:shadow-2xl cursor-pointer" 
+                 data-title="Becoming" data-writer="Michelle Obama" data-img="book 4.png" data-review="A beautifully honest and inspiring memoir. Michelle Obama shares her journey with grace and candor. It's a deep, personal look at her life and career, motivating and powerful.">
+                <img src="book 4.png" alt="Book 3 Cover" class="w-full h-56 object-cover rounded-lg mb-2">
+                <p class="title font-semibold text-lg">Becoming</p>
+                <p class="writer text-sm">Michelle Obama</p>
+            </div>
+            
+            <div class="book p-3 rounded-xl text-center shadow-lg transform transition duration-300 hover:scale-[1.03] hover:shadow-2xl cursor-pointer" 
+                 data-title="The Great Gatsby" data-writer="F. Scott Fitzgerald" data-img="book 5.png" data-review="A timeless classic about the American dream and its illusions. Fitzgerald's prose is stunning, capturing the glamour and sadness of the Jazz Age. A tragic and essential piece of literature.">
+                <img src="book 5.png" alt="Book 4 Cover" class="w-full h-56 object-cover rounded-lg mb-2">
+                <p class="title font-semibold text-lg">The Great Gatsby</p>
+                <p class="writer text-sm">F. Scott Fitzgerald</p>
+            </div>
+            
+            <div id="hidden-book-grid" class="contents hidden-books">
+                <div class="book p-3 rounded-xl text-center shadow-lg transform transition duration-300 hover:scale-[1.03] hover:shadow-2xl cursor-pointer"
+                     data-title="Howl's Castle" data-writer="Hayai Miyazaki" data-img="book 6.png" data-review="A whimsical fantasy adventure. The story is imaginative and full of charm, though the pacing can feel uneven at times. A delightful read for fantasy fans.">
+                    <img src="book 6.png" alt="Book 5 Cover" class="w-full h-56 object-cover rounded-lg mb-2">
+                    <p class="title font-semibold text-lg">Howl's Castle</p>
+                    <p class="writer text-sm">Hayai Miyazaki</p>
+                </div>
+
+                <div class="book p-3 rounded-xl text-center shadow-lg transform transition duration-300 hover:scale-[1.03] hover:shadow-2xl cursor-pointer"
+                     data-title="The Martian" data-writer="Andy Weir" data-img="book 8.png" data-review="A gripping, scientifically accurate survival story. The protagonist's problem-solving skills make this book truly engaging and fun. Highly addictive and well-written.">
+                    <img src="book 8.png" alt="Book 6 Cover" class="w-full h-56 object-cover rounded-lg mb-2">
+                    <p class="title font-semibold text-lg">The Martian</p>
+                    <p class="writer text-sm">Andy Weir</p>
+                </div>
+                
+                <div class="book p-3 rounded-xl text-center shadow-lg transform transition duration-300 hover:scale-[1.03] hover:shadow-2xl cursor-pointer"
+                     data-title="Another Silent Patient" data-writer="Alex Michaelides" data-img="book 9.png" data-review="This is a placeholder review for the second 'Silent Patient' cover. In a real application, you'd fetch a unique review from a database for this specific book.">
+                    <img src="book 9.png" alt="Book 7 Cover" class="w-full h-56 object-cover rounded-lg mb-2">
+                    <p class="title font-semibold text-lg">The Silent Patient</p>
+                    <p class="writer text-sm">Alex Michaelides</p>
+                </div>
+                <div class="book p-3 rounded-xl text-center shadow-lg transform transition duration-300 hover:scale-[1.03] hover:shadow-2xl cursor-pointer"
+                     data-title="Another Dune" data-writer="Frank Herbert" data-img="book 10.png" data-review="This is a placeholder review for the second 'Dune' cover. The themes of power and ecology are as strong as ever.">
+                    <img src="book 10.png" alt="Book 8 Cover" class="w-full h-56 object-cover rounded-lg mb-2">
+                    <p class="title font-semibold text-lg">Dune</p>
+                    <p class="writer text-sm">Frank Herbert</p>
+                </div>
+                <div class="book p-3 rounded-xl text-center shadow-lg transform transition duration-300 hover:scale-[1.03] hover:shadow-2xl cursor-pointer"
+                     data-title="Work : Life" data-writer="Robert Ashley" data-img="Rectangle 17.png" data-review="A thought-provoking read on modern professional balance. The structure is insightful, providing practical advice on managing boundaries.">
+                    <img src="Rectangle 17.png" alt="Book 9 Cover" class="w-full h-56 object-cover rounded-lg mb-2">
+                    <p class="title font-semibold text-lg">Work : Life</p>
+                    <p class="writer text-sm">Robert Ashley</p>
+                </div>
+                <div class="book p-3 rounded-xl text-center shadow-lg transform transition duration-300 hover:scale-[1.03] hover:shadow-2xl cursor-pointer"
+                     data-title="Well Wasted" data-writer="Hayao Miyazaki" data-img="Rectangle 27.png" data-review="A beautiful collection of essays on slowing down and appreciating life's small moments. The writing is poetic and deeply resonant.">
+                    <img src="Rectangle 27.png" alt="Book 10 Cover" class="w-full h-56 object-cover rounded-lg mb-2">
+                    <p class="title font-semibold text-lg">Well Wasted</p>
+                    <p class="writer text-sm">Hayao Miyazaki</p>
+                </div>
+                <div class="book p-3 rounded-xl text-center shadow-lg transform transition duration-300 hover:scale-[1.03] hover:shadow-2xl cursor-pointer"
+                     data-title="Where the Crawdads Sing" data-writer="Delia Owens" data-img="Rectangle 28.png" data-review="A breathtaking coming-of-age story interwoven with a compelling murder mystery. The setting is richly described, making the nature feel like a character itself.">
+                    <img src="Rectangle 28.png" alt="Book 11 Cover" class="w-full h-56 object-cover rounded-lg mb-2">
+                    <p class="title font-semibold text-lg">Where the Crawdads Sing</p>
+                    <p class="writer text-sm">Delia Owens</p>
+                </div>
+                <div class="book p-3 rounded-xl text-center shadow-lg transform transition duration-300 hover:scale-[1.03] hover:shadow-2xl cursor-pointer"
+                     data-title="Educated" data-writer="Tara Westover" data-img="Rectangle 31.png" data-review="A phenomenal memoir about the pursuit of knowledge despite an isolated upbringing. Tara Westover's resilience is inspiring and the narrative is deeply moving.">
+                    <img src="Rectangle 31.png" alt="Book 12 Cover" class="w-full h-56 object-cover rounded-lg mb-2">
+                    <p class="title font-semibold text-lg">Educated</p>
+                    <p class="writer text-sm">Tara Westover</p>
+                </div>
+                <div class="book p-3 rounded-xl text-center shadow-lg transform transition duration-300 hover:scale-[1.03] hover:shadow-2xl cursor-pointer"
+                     data-title="Atomic Habits" data-writer="James Clear" data-img="Rectangle 32.png" data-review="An incredibly practical guide to building better habits. Clear breaks down the science of habit formation into actionable steps. Essential for self-improvement.">
+                    <img src="Rectangle 32.png" alt="Book 13 Cover" class="w-full h-56 object-cover rounded-lg mb-2">
+                    <p class="title font-semibold text-lg">Atomic Habits</p>
+                    <p class="writer text-sm">James Clear</p>
+                </div>
+                <div class="book p-3 rounded-xl text-center shadow-lg transform transition duration-300 hover:scale-[1.03] hover:shadow-2xl cursor-pointer"
+                     data-title="Sapiens" data-writer="Yuval Noah Harari" data-img="Rectangle 33.png" data-review="A sweeping, mind-altering history of humankind. Harari challenges fundamental beliefs and offers unique perspectives on our species. A dense but rewarding read.">
+                    <img src="Rectangle 33.png" alt="Book 14 Cover" class="w-full h-56 object-cover rounded-lg mb-2">
+                    <p class="title font-semibold text-lg">Sapiens</p>
+                    <p class="writer text-sm">Yuval Noah Harari</p>
+                </div>
+                <div class="book p-3 rounded-xl text-center shadow-lg transform transition duration-300 hover:scale-[1.03] hover:shadow-2xl cursor-pointer"
+                     data-title="Circe" data-writer="Madeline Miller" data-img="Rectangle 34.png" data-review="A captivating retelling of Greek mythology focusing on the witch Circe. Miller's writing is lyrical and the character development is superb. A truly enchanting read.">
+                    <img src="Rectangle 34.png" alt="Book 15 Cover" class="w-full h-56 object-cover rounded-lg mb-2">
+                    <p class="title font-semibold text-lg">Circe</p>
+                    <p class="writer text-sm">Madeline Miller</p>
+                </div>
+            </div> 
+        </div> 
+        <div class="text-center mt-10">
+            <button id="toggle-books-btn" class="secondary-btn px-6 py-3 rounded-full font-bold shadow-lg">
+                See All 15 Books
             </button>
         </div>
-     </section>
-    <br>
-    <br>
-    <br>    
-    <div class="Gallery">
-        <section id="recent">
-            <div class="h">
-            <h2>Recent Books :</h2>
-        </div>
-          <div class="b">
     </section>
-        
-        
-        <section id="firstrow">
-            <div class="book">
-                <a href="sin.html">
-                <img src="book 1.png" alt="">
-                </a>
-                <p class="title">The Wicked</p>
-                <p class="writer">Gillen Mckelvie</p>
+
+    ---
+
+    <section id="single-book" class="page-section bg-white p-4 md:p-8">
+        <div class="max-w-4xl mx-auto flex flex-col md:flex-row items-start gap-10">
+            <img src="book 7.png" alt="The Wicked book cover" class="w-full md:w-1/3 h-auto object-cover rounded-xl shadow-2xl flex-shrink-0 mx-auto">
+            <div class="pt-4 md:pt-0">
+                <h2 class="text-4xl font-extrabold mb-2">The Wicked</h2>
+                <p class="text-2xl font-semibold mb-6 text-yellow-700">Gillen Mckelvie</p>
+                <p class="text-lg leading-relaxed text-gray-800 mb-8">
+                    A teen looks to impress some girls by sneaking into the woods to find a house where a witch is said to live. He and his companions find out the hard way that the legend of the child-eating witch is true and she is back and on the hunt. The story is a chilling blend of classic folklore and modern horror, exploring themes of curiosity, peer pressure, and the consequences of tempting fate. A must-read for horror enthusiasts.
+                </p>
+                <button class="primary-btn p-3 rounded-lg font-semibold w-full md:w-auto">Read Sample</button>
             </div>
-            <div class="book">
-                <a href="sin.html">
-               <img src="book 2.png" alt="">
-                </a>
-                <p class="title">Harry Potter</p>
-                <p class="writer">J.K Rowling</p>
-            </div>
-            <div class="book">
-                <a href="sin.html">
-              <img src="book 3.png" alt="">
-                </a>
-                <p class="title">Work : A Life Is Wasted</p>
-                <p class="writer">Robert Ashley</p>
-            </div>
-            <div class="book">
-                <a href="sin.html">
-              <img src="book 4.png" alt="">
-                </a>
-                <p class="title">Well Wasted</p>
-                <p class="writer">Hayao Miyazaki</p>
-            </div>
-            <div class="book">
-                <a href="sin.html">
-            <img src="book 5.png" alt="">
-                </a>
-                <p class="title">Howl's Moving Castle</p>
-                <p class="writer">Hayai Miyazaki</p>
-            </div>
-        </section>
-        <section id="secondrow">
-            <div class="book">
-                <a href="sin.html">
-              <img src="book 6.png" alt="">
-                </a>
-                <p class="title">The jungle book </p>
-                <p class="writer"></p>
-            </div>
-            <div class="book">
-                <a href="sin.html">
-              <img src="book 7.png" alt="">
-                </a>
-                <p class="title">Frozen</p>
-                <p class="writer"></p>
-                   
-            </div>
-            <div class="book">
-                <a href="sin.html">
-               <img src="book 8.png" alt="">
-                   </a>
-                <p class="title">Die hard</p>
-                <p class="writer"></p>
-            </div>
-            <div class="book">
-                <a href="sin.html">
-               <img src="book 9.png" alt="">
-                   </a>
-                <p class="title">The evil dead</p>
-                <p class="writer"></p>
-            </div>
-            <div class="book">
-                <a href="sin.html">
-                <img src="book 10.png" alt="">
-                   </a>
-                <p class="title">The last of us</p>
-                <p class="writer">Niel druckmann</p>
-             
-            </div>
-        </section>        
-    </div>
-    <section id="all">
-        <div id="book">
-            <a href="alb.html" class="all">ALL BOOKS</a>
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M14.43 5.93005L20.5 12.0001L14.43 18.0701" stroke="#292D32" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M3.5 12H20.33" stroke="#292D32" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
         </div>
     </section>
- <section class="bookOfTheWeekSection">
-            Book Of The Week</p>
-            <div class="bookOfTHeweek">
-                <div class="bookOfTheWeekDiv">
-                    <img src="Rectangle 17.png">
-                    <div style="margin-left: 30px;">
-                        <p style="margin-top: 100px; margin-bottom: 12px; font-size: xx-large;">The Wicked</p>
-                        <p style="margin-bottom: 50px; color: #DEA331;">Gillen Mckelvie</p>
-                        <p>A teen looks to impress some girls by sneaking into the woods to find a house where a witch is said to live. He and his companions find out the hard way that the legend of the child-eating witch is true and she is back and on the hunt. a teen looks to impress some girls by sneaking into the woods to find a house where a witch is said to live. He and his companions find out the hard way that the legend of the child-eating witch is true and she is back and on the hunt.</p>
-                    </div>
+
+    ---
+    
+    <section id="yours" class="page-section max-w-lg mx-auto p-4 md:p-8">
+        <div class="form-container p-8 rounded-3xl shadow-xl">
+            <h2 class="text-3xl font-bold text-center mb-8">SHARE YOUR FEELINGS ❤️</h2>
+
+            <div class="flex flex-col items-center mb-8 pb-6 border-b border-gray-300">
+                <h3 class="text-xl font-semibold mb-3 text-gray-700">Rate US: </h3>
+                <div class="rating">
+                    <input type="radio" id="star5" name="rating" value="5">
+                    <label for="star5">★</label>
+                    <input type="radio" id="star4" name="rating" value="4">
+                    <label for="star4">★</label>
+                    <input type="radio" id="star3" name="rating" value="3">
+                    <label for="star3">★</label>
+                    <input type="radio" id="star2" name="rating" value="2">
+                    <label for="star2">★</label>
+                    <input type="radio" id="star1" name="rating" value="1">
+                    <label for="star1">★</label>
                 </div>
             </div>
-        </section>
+
+            <form>
+                <div class="mb-5">
+                    <label for="review-text" class="block text-sm font-medium mb-2 text-gray-700">PUT YOUR FEELING HERE</label>
+                    <textarea id="review-text" rows="6" class="form-input p-3 rounded-lg w-full resize-y" required></textarea>
+                </div>
+
+                <button type="submit" class="primary-btn p-3 rounded-lg font-bold w-full mt-4">SEND IT!</button>
+            </form>
+        </div>
+    </section>
+
+    <footer class="bg-white p-6 text-center mt-10 border-t border-gray-200">
+        <h2 class="text-2xl font-bold mb-1">Mimir</h2>
+        <p class="text-gray-500">Youcode Library Books List - &copy; 2025</p>
+    </footer>
+
+    <script>
+        // --- GSAP Animations (Unchanged) ---
+        const card = document.getElementById('card');
+
+        // 3D rotation on mouse move
+        document.addEventListener("mousemove", (e) => {
+            let x = (window.innerWidth / 2 - e.clientX) / 30;
+            let y = (window.innerHeight / 2 - e.clientY) / 30;
+
+            gsap.to(card, {
+                rotateY: -x,
+                rotateX: y,
+                ease: "power2.out",
+                duration: 0.4,
+            });
+        });
+
+        // Glow animation
+        gsap.to("#circle", {
+            x: 40,
+            y: -40,
+            scale: 1.3,
+            repeat: -1,
+            yoyo: true,
+            duration: 3,
+            ease: "sine.inOut"
+        });
+
+        // Entrance animation
+        gsap.from("#card", {
+            opacity: 0,
+            y: 50,
+            duration: 1.3,
+            ease: "power4.out"
+        });
+        
+        // --- Modal/Overlay Logic ---
+        const modals = {
+            login: document.getElementById('login-modal'),
+            signup: document.getElementById('signup-modal'),
+            request: document.getElementById('request-modal'),
+            review: document.getElementById('book-review-modal')
+        };
+
+        const navButtons = {
+            login: document.getElementById('nav-login-btn'),
+            signup: document.getElementById('nav-signup-btn'),
+            request: document.getElementById('nav-request-btn')
+        };
+        
+        const goToSignupBtn = document.getElementById('go-to-signup');
+        const closeBtns = document.querySelectorAll('.modal-close-btn');
+        const closeReviewBtn = document.getElementById('close-review-modal-btn');
 
 
-    
+        function hideAllModals() {
+            Object.values(modals).forEach(modal => {
+                modal.style.display = 'none';
+            });
+        }
+        
+        function openModal(modal) {
+            hideAllModals();
+            modal.style.display = 'grid'; 
+        }
 
+        navButtons.login.addEventListener('click', () => openModal(modals.login));
+        navButtons.signup.addEventListener('click', () => openModal(modals.signup));
+        navButtons.request.addEventListener('click', () => openModal(modals.request));
 
-<footer>
-  <h2>Mimir</h2>
-  <p>Youcode Library Books List</p>
-</footer>
-</div>
+        closeBtns.forEach(btn => {
+            btn.addEventListener('click', hideAllModals);
+        });
+        
+        closeReviewBtn.addEventListener('click', hideAllModals);
+
+        goToSignupBtn.addEventListener('click', () => openModal(modals.signup));
+
+        Object.values(modals).forEach(modal => {
+              modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    hideAllModals();
+                }
+            });
+        });
+
+        // --- Smooth Scrolling for Internal Links (Unchanged) ---
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                if (this.getAttribute('href') !== '#home') {
+                    e.preventDefault();
+                    document.querySelector(this.getAttribute('href')).scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // --- Corrected: Toggle Books Logic (Uses classList for reliability) ---
+        const hiddenGrid = document.getElementById('hidden-book-grid');
+        const toggleButton = document.getElementById('toggle-books-btn');
+        let isExpanded = false;
+
+        toggleButton.addEventListener('click', function() {
+            if (isExpanded) {
+                hiddenGrid.classList.add('hidden-books'); 
+                hiddenGrid.classList.remove('visible-books');
+
+                this.textContent = 'See All 15 Books';
+                isExpanded = false;
+                
+                document.getElementById('all-books').scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+
+            } else {
+                hiddenGrid.classList.remove('hidden-books');
+                hiddenGrid.classList.add('visible-books');
+                
+                this.textContent = 'Show Less';
+                isExpanded = true;
+            }
+        });
+
+        // --- Book Click to Open Review Modal (Unchanged functionality) ---
+        const bookElements = document.querySelectorAll('.book');
+        const reviewTitle = document.getElementById('review-book-title');
+        const reviewWriter = document.getElementById('review-book-writer');
+        const reviewImage = document.getElementById('review-book-image');
+        const reviewContent = document.getElementById('review-book-content');
+
+        bookElements.forEach(book => {
+            book.addEventListener('click', function() {
+                const title = this.getAttribute('data-title');
+                const writer = this.getAttribute('data-writer');
+                const imageSrc = this.getAttribute('data-img');
+                const reviewText = this.getAttribute('data-review');
+
+                reviewTitle.textContent = title;
+                reviewWriter.textContent = writer;
+                reviewImage.src = imageSrc;
+                reviewImage.alt = `${title} book cover`;
+                reviewContent.textContent = reviewText;
+
+                openModal(modals.review);
+            });
+        });
+    </script>
+
 </body>
 </html>
