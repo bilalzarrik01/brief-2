@@ -3,22 +3,75 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Mimir Library - Light Theme</title>
+    <title>Mimir Library - Animated 3D Dark Theme (Responsive)</title>
 
     <script src="https://cdn.tailwindcss.com"></script>
-
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 
     <style>
-        /* Custom Styles - ALL COLORS CHANGED FOR LIGHT THEME */
+        /* Custom Styles - CLASSIC RICH DARK THEME */
         body {
-            /* MANTEL */
-            background: #F0F0E0; /* Soft Cream/Beige */
-            color: #1a1a1a; /* Dark Text */
+            /* Background handled by #library-background for 3D effect */
+            background: #121217; 
+            color: #ffffff; 
             font-family: sans-serif;
-            overflow-x: hidden;
+            overflow-x: hidden; /* Crucial for preventing horizontal scroll */
         }
+
+        /* --- 3D LIBRARY BACKGROUND STYLES --- */
+        #library-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: -10; 
+            background: #121217; 
+            perspective: 1000px; 
+        }
+
+        .shelf {
+            position: absolute;
+            top: 0;
+            left: -50%; 
+            width: 200%; 
+            height: 100%;
+            background-image: repeating-linear-gradient(
+                45deg,
+                #1E1E23 0,
+                #1E1E23 10px,
+                #2A2A33 10px,
+                #2A2A33 20px
+            ); 
+            opacity: 0.15;
+            transform-style: preserve-3d;
+        }
+
+        @keyframes slow-pan {
+            0% { transform: translate3d(0, 0, 0); }
+            100% { transform: translate3d(50%, 0, 0); } 
+        }
+
+        .shelf-1 {
+            transform: translateZ(-200px); 
+            opacity: 0.05;
+            animation: slow-pan 60s linear infinite alternate; 
+        }
+
+        .shelf-2 {
+            transform: translateZ(-500px);
+            opacity: 0.1;
+            animation: slow-pan 90s linear infinite reverse; 
+        }
+
+        .shelf-3 {
+            transform: translateZ(-800px); 
+            opacity: 0.15;
+            animation: slow-pan 120s linear infinite alternate; 
+        }
+        /* --- END 3D LIBRARY BACKGROUND STYLES --- */
 
         /* 3D Card Styles */
         .card-3d {
@@ -28,41 +81,55 @@
 
         /* Hero Section */
         .hero-section {
-            background-color: #FDFDF5; /* Lighter white */
+            background-color: transparent; 
             padding: 4rem 1rem;
         }
+        
+        /* Adjusted width for card on small screens */
+        @media (max-width: 640px) {
+            #card {
+                width: 90%; 
+                max-width: 380px;
+            }
+        }
+
 
         /* Header */
         .header-nav {
-            background-color: #FFFFFF; /* White Header */
-            border-bottom: 1px solid #e0e0e0;
+            background-color: #1E1E23; 
+            border-bottom: 1px solid #33333A;
         }
 
         /* Forms Styling */
         .form-container {
-            background-color: #FFFFFF; /* White form background */
-            border: 1px solid #ccc;
+            background-color: #1E1E23; 
+            border: 1px solid #3A3A42;
             max-height: 90vh; 
             overflow-y: auto; 
-            color: #1a1a1a; /* Dark text inside form */
+            color: #ffffff;
+        }
+        
+        /* Modal Overlay Responsive Fix */
+        .modal-overlay {
+            padding: 1rem; /* Ensure padding on small screens */
         }
 
         .form-input {
-            background-color: #f7f7f7; /* Very light input */
-            border: 1px solid #ddd;
-            color: #1a1a1a;
+            background-color: #25252A; 
+            border: 1px solid #3A3A42;
+            color: white;
             transition: background-color 0.2s, border-color 0.2s;
         }
 
         .form-input:focus {
-            background-color: #ffffff;
-            border-color: #54BAB9;
+            background-color: #2A2A33;
+            border-color: #54BAB9; 
         }
 
         /* Button Styling */
         .primary-btn {
-            background-color: #54BAB9;
-            color: white; /* Primary buttons should have white text */
+            background-color: #54BAB9; 
+            color: white; 
             transition: background-color 0.2s, transform 0.1s;
         }
 
@@ -71,23 +138,31 @@
         }
 
         .secondary-btn {
-            background-color: #e0e0e0; /* Light secondary buttons */
-            color: #1a1a1a; /* Dark text on secondary button */
+            background-color: #44444D; 
+            color: white;
             transition: background-color 0.2s, transform 0.1s;
         }
 
         .secondary-btn:hover {
-            background-color: #ccc;
+            background-color: #3A3A42;
         }
 
-        /* Book of the Week */
-        .book-week {
-            background-color: #fff8e1; /* Light cream accent */
-            border: 1px solid #ffe0b2;
-            color: #1a1a1a;
+        /* Book of the Week Responsive Fix */
+        .book-week img {
+            height: auto; 
+            max-height: 20rem; /* Limit size on small screens */
+            width: 100%; /* Take full width on small screens */
+            max-width: 15rem; /* Re-limit size on larger screens if column is wide */
         }
-
-        /* Star Rating - Color remains gold */
+        @media (min-width: 1024px) {
+            .book-week img {
+                width: auto;
+                max-width: none;
+                height: 20rem; /* Original height on large screens */
+            }
+        }
+        
+        /* Star Rating */
         .rating {
             direction: rtl;
             unicode-bidi: bidi-override;
@@ -96,7 +171,7 @@
 
         .rating label {
             font-size: 2.5rem;
-            color: #ccc; /* Light gray for unselected stars */
+            color: #44444D; 
             cursor: pointer;
             transition: color 0.2s;
         }
@@ -112,6 +187,8 @@
             min-height: 50vh; 
             padding-top: 5rem;
             padding-bottom: 5rem;
+            position: relative; 
+            z-index: 10;
         }
 
         /* Modal/Overlay Styles */
@@ -121,42 +198,39 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.7); /* Darker overlay for contrast */
+            background: rgba(0, 0, 0, 0.95);
             z-index: 100;
             display: none;
             place-items: center;
         }
-
-        .modal-form {
-            position: relative;
-            max-width: 90%;
-            margin: auto;
-        }
         
-        #book-review-modal .modal-form {
-            max-width: 600px;
+        /* Book Item Styling */
+        .book {
+            background-color: #1E1E23; 
+            border: 1px solid #33333A;
+            color: white;
+        }
+        /* Ensure book cover height scales better on small screens */
+        .book img {
+            width: 100%; /* Take up the entire column width */
+            height: 15rem; /* Fixed height for consistency in the grid */
+            object-fit: cover;
+        }
+
+        .book .writer {
+            color: #AAAAAA; 
         }
 
         /* Smooth Scroll Link Style */
         .scroll-link {
             transition: color 0.2s;
-            color: #1a1a1a; /* Dark links on light header */
+            color: #ffffff; 
         }
         .scroll-link:hover {
             color: #54BAB9; 
         }
 
-        /* Book Item Styling */
-        .book {
-            background-color: #FFFFFF; /* White background for books */
-            border: 1px solid #eee;
-            color: #1a1a1a;
-        }
-        .book .writer {
-            color: #5a5a5a; /* Slightly lighter gray for author */
-        }
-
-        /* Utility Class for JS Toggle - Corrected */
+        /* Utility Class for JS Toggle */
         .hidden-books {
             display: none;
             transition: opacity 0.5s ease;
@@ -167,11 +241,16 @@
     </style>
 </head>
 
-<body class="text-[#1a1a1a]">
+<body class="text-white">
 
-    <header class="header-nav sticky top-0 z-50 shadow-md">
+    <div id="library-background">
+        <div class="shelf shelf-1"></div>
+        <div class="shelf shelf-2"></div>
+        <div class="shelf shelf-3"></div>
+    </div>
+    <header class="header-nav sticky top-0 z-50 shadow-lg">
         <div class="max-w-7xl mx-auto flex justify-between items-center p-4">
-            <a href="#home" class="text-3xl font-bold text-[#1a1a1a]">Mimir</a>
+            <a href="#home" class="text-3xl font-bold text-white">Mimir</a>
             
             <nav class="flex gap-6 text-sm font-medium hidden md:flex">
                 <a href="#all-books" class="scroll-link">All Books</a>
@@ -180,7 +259,7 @@
             </nav>
 
             <div class="flex gap-4">
-                <button id="nav-request-btn" class="secondary-btn px-4 py-2 rounded-lg font-medium shadow-md">Request Book 📬</button>
+                <button id="nav-request-btn" class="secondary-btn px-4 py-2 rounded-lg font-medium shadow-md hidden sm:inline-block">Request 📬</button>
                 <button id="nav-signup-btn" class="primary-btn px-4 py-2 rounded-lg font-medium shadow-md">Sign Up</button>
                 <button id="nav-login-btn" class="secondary-btn px-4 py-2 rounded-lg font-medium shadow-md">Login 🔑</button>
             </div>
@@ -189,24 +268,24 @@
 
     <div id="login-modal" class="modal-overlay">
         <div class="modal-form form-container p-8 rounded-3xl shadow-xl w-full max-w-md">
-            <button class="modal-close-btn absolute top-4 right-4 text-gray-500 hover:text-[#1a1a1a] text-3xl font-light leading-none">&times;</button>
+            <button class="modal-close-btn absolute top-4 right-4 text-gray-500 hover:text-white text-3xl font-light leading-none">&times;</button>
             
             <h2 class="text-3xl font-bold text-center mb-8">LOGIN 🔑 </h2>
             <form>
                 <div class="mb-5">
-                    <label for="username-log" class="block text-sm font-medium mb-2 text-gray-700">EMAIL / USERNAME</label>
+                    <label for="username-log" class="block text-sm font-medium mb-2 text-gray-400">EMAIL / USERNAME</label>
                     <input type="text" id="username-log" class="form-input p-3 rounded-lg w-full" required>
                 </div>
                 <div class="mb-8">
-                    <label for="password-log" class="block text-sm font-medium mb-2 text-gray-700">PASSWORD</label>
+                    <label for="password-log" class="block text-sm font-medium mb-2 text-gray-400">PASSWORD</label>
                     <input type="password" id="password-log" class="form-input p-3 rounded-lg w-full" required>
                 </div>
-                <div class="flex justify-between items-center mt-6">
-                    <button type="submit" class="primary-btn p-3 rounded-lg font-bold w-2/5">LOGIN</button>
-                    <button type="button" id="go-to-signup" class="secondary-btn p-3 rounded-lg font-bold w-2/5 text-sm">Create Account</button>
+                <div class="flex flex-col sm:flex-row justify-between items-center mt-6 gap-3">
+                    <button type="submit" class="primary-btn p-3 rounded-lg font-bold w-full sm:w-2/5">LOGIN</button>
+                    <button type="button" id="go-to-signup" class="secondary-btn p-3 rounded-lg font-bold w-full sm:w-2/5 text-sm">Create Account</button>
                 </div>
                 <p class="text-center text-sm text-gray-500 mt-4">
-                    <a href="#" class="hover:text-[#1a1a1a]">Forgot Password?</a>
+                    <a href="#" class="hover:text-white">Forgot Password?</a>
                 </p>
             </form>
         </div>
@@ -214,24 +293,24 @@
 
     <div id="signup-modal" class="modal-overlay">
         <div class="modal-form form-container p-8 rounded-3xl shadow-xl w-full max-w-md">
-             <button class="modal-close-btn absolute top-4 right-4 text-gray-500 hover:text-[#1a1a1a] text-3xl font-light leading-none">&times;</button>
+             <button class="modal-close-btn absolute top-4 right-4 text-gray-500 hover:text-white text-3xl font-light leading-none">&times;</button>
 
             <h2 class="text-3xl font-bold text-center mb-8">SIGN UP 👋</h2>
             <form>
                 <div class="mb-5">
-                    <label for="full-name-up" class="block text-sm font-medium mb-2 text-gray-700">FULL NAME</label>
+                    <label for="full-name-up" class="block text-sm font-medium mb-2 text-gray-400">FULL NAME</label>
                     <input type="text" id="full-name-up" placeholder="Full Name" class="form-input p-3 rounded-lg w-full">
                 </div>
                 <div class="mb-5">
-                    <label for="email-up" class="block text-sm font-medium mb-2 text-gray-700">EMAIL</label>
+                    <label for="email-up" class="block text-sm font-medium mb-2 text-gray-400">EMAIL</label>
                     <input type="email" id="email-up" placeholder="Email" class="form-input p-3 rounded-lg w-full">
                 </div>
                 <div class="mb-5">
-                    <label for="password-up" class="block text-sm font-medium mb-2 text-gray-700">PASSWORD</label>
+                    <label for="password-up" class="block text-sm font-medium mb-2 text-gray-400">PASSWORD</label>
                     <input type="password" id="password-up" placeholder="Password" class="form-input p-3 rounded-lg w-full">
                 </div>
                 <div class="mb-8">
-                    <label for="where-hear" class="block text-sm font-medium mb-2 text-gray-700">HOW DID YOU HEAR ABOUT US?</label>
+                    <label for="where-hear" class="block text-sm font-medium mb-2 text-gray-400">HOW DID YOU HEAR ABOUT US?</label>
                     <textarea id="where-hear" rows="3" placeholder="Where did you hear about us?" class="form-input p-3 rounded-lg w-full resize-y"></textarea>
                 </div>
 
@@ -242,27 +321,27 @@
     
     <div id="request-modal" class="modal-overlay">
         <div class="modal-form form-container p-8 rounded-3xl shadow-xl w-full max-w-md">
-            <button class="modal-close-btn absolute top-4 right-4 text-gray-500 hover:text-[#1a1a1a] text-3xl font-light leading-none">&times;</button>
+            <button class="modal-close-btn absolute top-4 right-4 text-gray-500 hover:text-white text-3xl font-light leading-none">&times;</button>
 
             <h2 class="text-3xl font-bold text-center mb-8">REQUEST A BOOK 📬</h2>
             <form>
                 <div class="mb-5">
-                    <label for="full-name-req" class="block text-sm font-medium mb-2 text-gray-700">FULL NAME</label>
+                    <label for="full-name-req" class="block text-sm font-medium mb-2 text-gray-400">FULL NAME</label>
                     <input type="text" id="full-name-req" class="form-input p-3 rounded-lg w-full" required>
                 </div>
 
                 <div class="mb-5">
-                    <label for="email-req" class="block text-sm font-medium mb-2 text-gray-700">EMAIL</label>
+                    <label for="email-req" class="block text-sm font-medium mb-2 text-gray-400">EMAIL</label>
                     <input type="email" id="email-req" class="form-input p-3 rounded-lg w-full" required>
                 </div>
 
                 <div class="mb-5">
-                    <label for="book-name-req" class="block text-sm font-medium mb-2 text-gray-700">THE BOOK NAME</label>
+                    <label for="book-name-req" class="block text-sm font-medium mb-2 text-gray-400">THE BOOK NAME</label>
                     <input type="text" id="book-name-req" class="form-input p-3 rounded-lg w-full" required>
                 </div>
 
                 <div class="mb-5">
-                    <label for="why-this-one-req" class="block text-sm font-medium mb-2 text-gray-700">WHY THIS ONE?</label>
+                    <label for="why-this-one-req" class="block text-sm font-medium mb-2 text-gray-400">WHY THIS ONE?</label>
                     <textarea id="why-this-one-req" rows="4" class="form-input p-3 rounded-lg w-full resize-y" required></textarea>
                 </div>
 
@@ -273,16 +352,16 @@
     
     <div id="book-review-modal" class="modal-overlay">
         <div class="modal-form form-container p-8 rounded-3xl shadow-xl w-full max-w-md">
-            <button class="modal-close-btn absolute top-4 right-4 text-gray-500 hover:text-[#1a1a1a] text-3xl font-light leading-none">&times;</button>
+            <button class="modal-close-btn absolute top-4 right-4 text-gray-500 hover:text-white text-3xl font-light leading-none">&times;</button>
             
             <div class="flex flex-col items-center">
                 <img id="review-book-image" src="book 1.png" alt="Book Cover" class="h-56 w-auto object-cover rounded-lg mb-4 shadow-lg">
                 <h2 id="review-book-title" class="text-3xl font-bold text-center mb-2">Book Title</h2>
-                <p id="review-book-writer" class="text-lg font-medium text-gray-700 mb-4">Book Writer</p>
+                <p id="review-book-writer" class="text-lg font-medium text-gray-400 mb-4">Book Writer</p>
             </div>
             
-            <h3 class="text-xl font-bold mb-2 border-t border-gray-300 pt-4 mt-4">Community Review:</h3>
-            <p id="review-book-content" class="text-base text-gray-800 leading-relaxed mb-6">
+            <h3 class="text-xl font-bold mb-2 border-t border-gray-700 pt-4 mt-4">Community Review:</h3>
+            <p id="review-book-content" class="text-base text-gray-300 leading-relaxed mb-6">
                 Currently, there is no specific review content loaded for this book. This is where a community member's detailed review, rating, and summary would appear.
             </p>
             
@@ -291,27 +370,27 @@
     </div>
 
     <section id="home" class="hero-section w-full h-screen flex items-center justify-center">
-        <div id="card" class="card-3d bg-white w-[380px] h-[460px] rounded-2xl shadow-2xl border border-gray-200 p-8 relative text-[#1a1a1a]">
+        <div id="card" class="card-3d bg-[#1E1E23] rounded-2xl shadow-2xl border border-gray-700 p-8 relative">
             <h1 class="text-4xl font-extrabold mb-4">Welcome to Mimir 📚</h1>
-            <p class="text-gray-700 leading-relaxed text-lg">
+            <p class="text-gray-400 leading-relaxed text-lg">
                 A Reader Lives a Thousand Lives Before He Dies. Experience our interactive library! Move your mouse to rotate this card.
             </p>
             <div id="circle" class="absolute -top-10 -right-10 w-32 h-32 rounded-full bg-purple-500/30 blur-2xl"></div>
         </div>
     </section>
 
-
+    ---
 
     <section id="all-books" class="page-section max-w-7xl mx-auto p-4 md:p-8">
-        <h2 class="text-4xl font-bold text-center mb-12 text-[#1a1a1a]">Recent Reads & Full Catalog</h2>
+        <h2 class="text-4xl font-bold text-center mb-12 text-white">Recent Reads & Full Catalog</h2>
 
         <div class="book-week p-6 md:p-10 rounded-3xl mb-12 flex flex-col lg:flex-row items-center gap-6 shadow-lg">
             <img src="book 1.png" alt="The Wicked book cover" class="h-80 w-auto object-cover rounded-xl shadow-lg flex-shrink-0">
-            <div class="text-[#1a1a1a]">
-                <p class="text-xl font-semibold mb-2 text-yellow-700">BOOK OF THE WEEK</p>
+            <div class="text-white">
+                <p class="text-xl font-semibold mb-2 text-yellow-500">BOOK OF THE WEEK</p>
                 <h3 class="text-5xl font-extrabold mb-3">The Wicked</h3>
-                <p class="text-lg font-medium text-gray-700 mb-4">Gillen Mckelvie</p>
-                <p class="text-base leading-relaxed text-gray-800">
+                <p class="text-lg font-medium text-gray-400 mb-4">Gillen Mckelvie</p>
+                <p class="text-base leading-relaxed text-gray-300">
                     A teen looks to impress some girls by sneaking into the woods where a witch is said to live. The legend becomes real when they discover she’s alive—and hunting. A gripping, dark fantasy that keeps you on the edge of your seat.
                 </p>
             </div>
@@ -324,7 +403,7 @@
             </div>
         </div>
 
-        <div class="book-grid grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-6">
+        <div class="book-grid grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 sm:gap-6">
             
             <div class="book p-3 rounded-xl text-center shadow-lg transform transition duration-300 hover:scale-[1.03] hover:shadow-2xl cursor-pointer" 
                  data-title="The Silent Patient" data-writer="Alex Michaelides" data-img="book 2.png" data-review="A psychological thriller with a shocking twist. The plot is cleverly constructed, though some character development feels shallow. Highly recommended for fans of unreliable narrators.">
@@ -353,8 +432,16 @@
                 <p class="title font-semibold text-lg">The Great Gatsby</p>
                 <p class="writer text-sm">F. Scott Fitzgerald</p>
             </div>
-            
+
+            <div class="book p-3 rounded-xl text-center shadow-lg transform transition duration-300 hover:scale-[1.03] hover:shadow-2xl cursor-pointer" 
+                 data-title="The Great Gatsby" data-writer="F. Scott Fitzgerald" data-img="book 7.png" data-review="This is the fifth visible book.">
+                <img src="book 7.png" alt="Book 4 Cover" class="w-full h-56 object-cover rounded-lg mb-2">
+                <p class="title font-semibold text-lg">The Wicked</p>
+                <p class="writer text-sm">Gillen Mckelvie</p>
+            </div>
+
             <div id="hidden-book-grid" class="contents hidden-books">
+                
                 <div class="book p-3 rounded-xl text-center shadow-lg transform transition duration-300 hover:scale-[1.03] hover:shadow-2xl cursor-pointer"
                      data-title="Howl's Castle" data-writer="Hayai Miyazaki" data-img="book 6.png" data-review="A whimsical fantasy adventure. The story is imaginative and full of charm, though the pacing can feel uneven at times. A delightful read for fantasy fans.">
                     <img src="book 6.png" alt="Book 5 Cover" class="w-full h-56 object-cover rounded-lg mb-2">
@@ -417,12 +504,6 @@
                     <p class="title font-semibold text-lg">Sapiens</p>
                     <p class="writer text-sm">Yuval Noah Harari</p>
                 </div>
-                <div class="book p-3 rounded-xl text-center shadow-lg transform transition duration-300 hover:scale-[1.03] hover:shadow-2xl cursor-pointer"
-                     data-title="Circe" data-writer="Madeline Miller" data-img="Rectangle 34.png" data-review="A captivating retelling of Greek mythology focusing on the witch Circe. Miller's writing is lyrical and the character development is superb. A truly enchanting read.">
-                    <img src="Rectangle 34.png" alt="Book 15 Cover" class="w-full h-56 object-cover rounded-lg mb-2">
-                    <p class="title font-semibold text-lg">Circe</p>
-                    <p class="writer text-sm">Madeline Miller</p>
-                </div>
             </div> 
         </div> 
         <div class="text-center mt-10">
@@ -432,15 +513,15 @@
         </div>
     </section>
 
+    ---
 
-
-    <section id="single-book" class="page-section bg-white p-4 md:p-8">
+    <section id="single-book" class="page-section bg-[#1E1E23] p-4 md:p-8">
         <div class="max-w-4xl mx-auto flex flex-col md:flex-row items-start gap-10">
-            <img src="book 7.png" alt="The Wicked book cover" class="w-full md:w-1/3 h-auto object-cover rounded-xl shadow-2xl flex-shrink-0 mx-auto">
+            <img src="book 7.png" alt="The Wicked book cover" class="w-2/3 max-w-xs md:w-1/3 h-auto object-cover rounded-xl shadow-2xl flex-shrink-0 mx-auto">
             <div class="pt-4 md:pt-0">
                 <h2 class="text-4xl font-extrabold mb-2">The Wicked</h2>
-                <p class="text-2xl font-semibold mb-6 text-yellow-700">Gillen Mckelvie</p>
-                <p class="text-lg leading-relaxed text-gray-800 mb-8">
+                <p class="text-2xl font-semibold mb-6 text-yellow-500">Gillen Mckelvie</p>
+                <p class="text-lg leading-relaxed text-gray-300 mb-8">
                     A teen looks to impress some girls by sneaking into the woods to find a house where a witch is said to live. He and his companions find out the hard way that the legend of the child-eating witch is true and she is back and on the hunt. The story is a chilling blend of classic folklore and modern horror, exploring themes of curiosity, peer pressure, and the consequences of tempting fate. A must-read for horror enthusiasts.
                 </p>
                 <button class="primary-btn p-3 rounded-lg font-semibold w-full md:w-auto">Read Sample</button>
@@ -448,13 +529,14 @@
         </div>
     </section>
 
+    ---
     
     <section id="yours" class="page-section max-w-lg mx-auto p-4 md:p-8">
         <div class="form-container p-8 rounded-3xl shadow-xl">
             <h2 class="text-3xl font-bold text-center mb-8">SHARE YOUR FEELINGS ❤️</h2>
 
-            <div class="flex flex-col items-center mb-8 pb-6 border-b border-gray-300">
-                <h3 class="text-xl font-semibold mb-3 text-gray-700">Rate US: </h3>
+            <div class="flex flex-col items-center mb-8 pb-6 border-b border-gray-700">
+                <h3 class="text-xl font-semibold mb-3 text-gray-400">Rate US: </h3>
                 <div class="rating">
                     <input type="radio" id="star5" name="rating" value="5">
                     <label for="star5">★</label>
@@ -471,7 +553,7 @@
 
             <form>
                 <div class="mb-5">
-                    <label for="review-text" class="block text-sm font-medium mb-2 text-gray-700">PUT YOUR FEELING HERE</label>
+                    <label for="review-text" class="block text-sm font-medium mb-2 text-gray-400">PUT YOUR FEELING HERE</label>
                     <textarea id="review-text" rows="6" class="form-input p-3 rounded-lg w-full resize-y" required></textarea>
                 </div>
 
@@ -480,26 +562,32 @@
         </div>
     </section>
 
-    <footer class="bg-white p-6 text-center mt-10 border-t border-gray-200">
+    <footer class="bg-[#1E1E23] p-6 text-center mt-10 border-t border-gray-700 relative z-10">
         <h2 class="text-2xl font-bold mb-1">Mimir</h2>
         <p class="text-gray-500">Youcode Library Books List - &copy; 2025</p>
     </footer>
 
     <script>
-        // --- GSAP Animations (Unchanged) ---
+        // --- GSAP Animations ---
         const card = document.getElementById('card');
 
         // 3D rotation on mouse move
         document.addEventListener("mousemove", (e) => {
-            let x = (window.innerWidth / 2 - e.clientX) / 30;
-            let y = (window.innerHeight / 2 - e.clientY) / 30;
+            // Apply rotation only if the screen is large enough for the effect to matter
+            if (window.innerWidth >= 768) {
+                let x = (window.innerWidth / 2 - e.clientX) / 30;
+                let y = (window.innerHeight / 2 - e.clientY) / 30;
 
-            gsap.to(card, {
-                rotateY: -x,
-                rotateX: y,
-                ease: "power2.out",
-                duration: 0.4,
-            });
+                gsap.to(card, {
+                    rotateY: -x,
+                    rotateX: y,
+                    ease: "power2.out",
+                    duration: 0.4,
+                });
+            } else {
+                 // Reset rotation on small screens
+                 gsap.to(card, { rotateY: 0, rotateX: 0, duration: 0.1 });
+            }
         });
 
         // Glow animation
@@ -571,7 +659,7 @@
             });
         });
 
-        // --- Smooth Scrolling for Internal Links (Unchanged) ---
+        // --- Smooth Scrolling for Internal Links ---
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 if (this.getAttribute('href') !== '#home') {
@@ -583,7 +671,7 @@
             });
         });
 
-        // --- Corrected: Toggle Books Logic (Uses classList for reliability) ---
+        // --- Toggle Books Logic ---
         const hiddenGrid = document.getElementById('hidden-book-grid');
         const toggleButton = document.getElementById('toggle-books-btn');
         let isExpanded = false;
@@ -610,7 +698,7 @@
             }
         });
 
-        // --- Book Click to Open Review Modal (Unchanged functionality) ---
+        // --- Book Click to Open Review Modal ---
         const bookElements = document.querySelectorAll('.book');
         const reviewTitle = document.getElementById('review-book-title');
         const reviewWriter = document.getElementById('review-book-writer');
